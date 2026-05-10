@@ -1,58 +1,22 @@
 # Security Policy
 
-## Supported Versions
+FlakeRadar is offline-first and does not intentionally make network calls in its V1 execution path.
 
-Replace this section with the supported versions for `flakeradar`.
+## Reporting a vulnerability
 
-Example:
+Please open a private security advisory on GitHub or contact the maintainer privately. Do not include live secrets in public issues.
 
-```md
-| Version | Supported |
-| --- | --- |
-| .x | Yes |
-| < .0 | No |
-```
+## Secret handling
 
-If the project does not publish versioned releases yet, say that clearly.
+Redaction is enabled by default for common token, key, password, authorization, and long-token patterns. It is best-effort, not a guarantee. Treat reports as potentially sensitive when the repeated command prints environment variables, logs, credentials, or private paths.
 
-## Reporting a Vulnerability
+## Supported versions
 
-Please do not report suspected vulnerabilities in public issues, pull requests, or discussions.
+The current `0.x` line receives security fixes while the project is active.
 
-Ask maintainers for the private security reporting path before sharing details.
+## Design boundaries
 
-If no private reporting path exists yet, ask maintainers through public project channels for a private reporting path. Do not include exploit details, secrets, personal data, or sensitive technical details in public messages.
-
-## What to Include
-
-When a private reporting path is available, include:
-
-- A clear description of the issue.
-- Affected versions, files, packages, workflows, or configuration.
-- Steps to reproduce, proof of concept, or attack scenario when safe to share.
-- Potential impact.
-- Suggested mitigation, if known.
-
-## Response Expectations
-
-Maintainers review good-faith reports as capacity allows.
-
-Do not imply paid support, guaranteed response times, guaranteed fixes, or service-level agreements unless `flakeradar` explicitly provides them.
-
-## Scope
-
-In scope:
-
-- Vulnerabilities in flakeradar.
-- Insecure default configuration shipped by this project.
-- CI, release, or dependency guidance maintained by this project.
-
-Out of scope:
-
-- General support requests.
-- Requests for guaranteed maintenance timelines.
-- Issues in unrelated downstream projects.
-
-## Disclosure
-
-Coordinate disclosure with maintainers before publishing vulnerability details.
+- No telemetry.
+- No hosted dashboard.
+- No hidden output files.
+- No command mutation beyond the local command the user explicitly passes after `--`.
