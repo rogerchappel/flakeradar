@@ -20,7 +20,7 @@ npm run check
 npm run build
 npm run smoke
 bash scripts/validate.sh
-node dist/cli.js run --repeat 4 --out /tmp/flakeradar-smoke.md --json /tmp/flakeradar-smoke.json -- node examples/fixtures/flaky-output.mjs --mode alternating
+node dist/src/cli.js run --repeat 4 --out /tmp/flakeradar-smoke.md --json /tmp/flakeradar-smoke.json -- node examples/fixtures/flaky-output.mjs --mode alternating
 ```
 
 Record the command results in the handoff or release notes.

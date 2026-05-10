@@ -16,7 +16,7 @@
     "npm run smoke",
     "bash scripts/validate.sh"
   ],
-  "smokeCommand": "node dist/cli.js run --repeat 4 --out /tmp/flakeradar-smoke.md --json /tmp/flakeradar-smoke.json -- node examples/fixtures/flaky-output.mjs --mode alternating",
+  "smokeCommand": "node dist/src/cli.js run --repeat 4 --out /tmp/flakeradar-smoke.md --json /tmp/flakeradar-smoke.json -- node examples/fixtures/flaky-output.mjs --mode alternating",
   "outputs": {
     "markdown": "flake-report.md",
     "json": "flake-report.json"

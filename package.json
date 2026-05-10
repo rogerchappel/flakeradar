@@ -4,14 +4,14 @@
   "description": "A tiny offline harness for spotting flaky local commands before they fool your agents.",
   "type": "module",
   "bin": {
-    "flakeradar": "./dist/cli.js"
+    "flakeradar": "./dist/src/cli.js"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
     }
   },
   "files": [

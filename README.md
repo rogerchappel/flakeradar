@@ -19,7 +19,7 @@ For local development in this repo:
 ```bash
 npm install
 npm run build
-node dist/cli.js --help
+node dist/src/cli.js --help
 ```
 
 ## Quick start
@@ -47,14 +47,14 @@ flakeradar run --repeat 5 --fail-on any -- npm test
 Stable fixture:
 
 ```bash
-node dist/cli.js run --repeat 3 -- node examples/fixtures/stable-pass.mjs
+node dist/src/cli.js run --repeat 3 -- node examples/fixtures/stable-pass.mjs
 ```
 
 Deterministic flake fixture:
 
 ```bash
 STATE=$(mktemp)
-node dist/cli.js run \
+node dist/src/cli.js run \
   --repeat 4 \
   --out /tmp/flakeradar.md \
   --json /tmp/flakeradar.json \
@@ -64,7 +64,7 @@ node dist/cli.js run \
 Compare saved JSON reports:
 
 ```bash
-node dist/cli.js compare /tmp/runs --format json
+node dist/src/cli.js compare /tmp/runs --format json
 ```
 
 ## What FlakeRadar detects
