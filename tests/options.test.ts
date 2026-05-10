@@ -12,6 +12,14 @@ test("parses run options before delimiter", () => {
   assert.deepEqual(parsed.commandArgs, ["test"]);
 });
 
+test("parses PRD-style run options after command delimiter", () => {
+  const parsed = parseRunArgs(["--", "npm", "test", "--repeat", "5", "--out", "flake-report.md"]);
+  assert.equal(parsed.repeat, 5);
+  assert.equal(parsed.out, "flake-report.md");
+  assert.equal(parsed.command, "npm");
+  assert.deepEqual(parsed.commandArgs, ["test"]);
+});
+
 test("parses compare options", () => {
   const parsed = parseCompareArgs(["runs", "--format", "json"]);
   assert.equal(parsed.dir, "runs");

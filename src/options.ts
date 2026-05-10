@@ -21,8 +21,20 @@ export interface CompareCliOptions {
 export function parseRunArgs(args: string[]): RunCliOptions {
   const delimiter = args.indexOf("--");
   const optionArgs = delimiter >= 0 ? args.slice(0, delimiter) : args;
-  const commandArgs = delimiter >= 0 ? args.slice(delimiter + 1) : [];
-  const options: RunCliOptions = {
+  const rawCommandArgs = delimiter >= 0 ? args.slice(delimiter + 1) : [];
+  const options: RunCliOptions = defaultRunOptions();
+
+  applyRunOptions(options, optionArgs, true);
+  const commandArgs = optionArgs.length === 0 ? extractTrailingRunOptions(options, rawCommandArgs) : rawCommandArgs;
+
+  if (commandArgs.length === 0) throw new Error("Usage: flakeradar run [options] -- <command> [args...]");
+  options.command = commandArgs[0];
+  options.commandArgs = commandArgs.slice(1);
+  return options;
+}
+
+function defaultRunOptions(): RunCliOptions {
+  return {
     repeat: 5,
     format: "markdown",
     failOn: "never",
@@ -30,7 +42,10 @@ export function parseRunArgs(args: string[]): RunCliOptions {
     command: "",
     commandArgs: []
   };
+}
 
+function applyRunOptions(options: RunCliOptions, optionArgs: string[], strict: boolean): string[] {
+  const passthrough: string[] = [];
   for (let index = 0; index < optionArgs.length; index += 1) {
     const arg = optionArgs[index];
     if (arg === "--repeat") options.repeat = positiveInt(takeValue(optionArgs, ++index, arg), arg);
@@ -39,13 +54,19 @@ export function parseRunArgs(args: string[]): RunCliOptions {
     else if (arg === "--format") options.format = parseFormat(takeValue(optionArgs, ++index, arg));
     else if (arg === "--fail-on") options.failOn = parseFailGate(takeValue(optionArgs, ++index, arg));
     else if (arg === "--no-redact") options.redact = false;
-    else throw new Error(`Unknown run option: ${arg}`);
+    else if (strict) throw new Error(`Unknown run option: ${arg}`);
+    else passthrough.push(arg);
   }
+  return passthrough;
+}
 
-  if (commandArgs.length === 0) throw new Error("Usage: flakeradar run [options] -- <command> [args...]");
-  options.command = commandArgs[0];
-  options.commandArgs = commandArgs.slice(1);
-  return options;
+function extractTrailingRunOptions(options: RunCliOptions, rawCommandArgs: string[]): string[] {
+  if (rawCommandArgs.length <= 1) return rawCommandArgs;
+  const commandArgs: string[] = [rawCommandArgs[0]];
+  const tail = rawCommandArgs.slice(1);
+  const passthrough = applyRunOptions(options, tail, false);
+  commandArgs.push(...passthrough);
+  return commandArgs;
 }
 
 export function parseCompareArgs(args: string[]): CompareCliOptions {
