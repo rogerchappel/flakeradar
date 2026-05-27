@@ -9,6 +9,15 @@ trap 'rm -rf "$TMPDIR"' EXIT
 node "$ROOT/dist/src/cli.js" --version >/dev/null
 node "$ROOT/dist/src/cli.js" run --repeat 2 --out "$TMPDIR/stable.md" --json "$TMPDIR/runs/stable.json" -- node "$ROOT/examples/fixtures/stable-pass.mjs"
 
+set +e
+node "$ROOT/dist/src/cli.js" run --repeat 2 --fail-on failure -- node "$ROOT/examples/fixtures/stable-fail.mjs" >"$TMPDIR/stable-fail.out"
+failure_status=$?
+set -e
+if [[ "$failure_status" -ne 1 ]]; then
+  echo "expected failure gate to exit 1, got $failure_status" >&2
+  exit 1
+fi
+
 touch "$TMPDIR/state"
 set +e
 node "$ROOT/dist/src/cli.js" run --repeat 4 --out "$TMPDIR/flaky.md" --json "$TMPDIR/runs/flaky.json" --fail-on flake -- node "$ROOT/examples/fixtures/flaky-output.mjs" --state "$TMPDIR/state"
