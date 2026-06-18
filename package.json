@@ -30,7 +30,7 @@
     "test": "npm run build && node --test dist/tests/*.test.js",
     "smoke": "npm run build && bash scripts/smoke.sh",
     "package:smoke": "npm pack --dry-run",
-    "release:check": "npm test && npm run check && npm run smoke && npm run package:smoke"
+    "release:check": "npm run build && npm test && npm run check && npm run smoke && npm run package:smoke"
   },
   "keywords": [
     "flake",
